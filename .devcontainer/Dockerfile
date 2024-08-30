@@ -25,7 +25,7 @@ RUN apt-get install ffmpeg libsm6 libxext6  -y
 # DDS alternative
 RUN apt install ros-humble-rmw-cyclonedds-cpp -y
 # tools to check network connectivity
-RUN apt install net-tools iputils-ping -y 
+RUN apt install net-tools iputils-ping ssh -y 
 
 
 
