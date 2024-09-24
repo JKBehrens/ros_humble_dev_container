@@ -38,5 +38,5 @@
         "source=/dev/dri,target=/dev/dri,type=bind,consistency=cached",
         "source=/home/behrejan/.ssh/,target=/home/behrejan/.ssh/,type=bind,consistency=cached"
     ],
-    "postCreateCommand": "sudo rosdep update && sudo rosdep install --from-paths src --ignore-src -y && sudo chown -R $(whoami) /home/ws/"
+    "postCreateCommand": "rosdep update && rosdep install --from-paths src --ignore-src -y && sudo chown -R $(whoami) /home/ws/"
 }
