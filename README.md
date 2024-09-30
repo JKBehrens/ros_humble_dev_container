@@ -72,7 +72,21 @@ Now log out and in. Try if docker works without `sudo`:
 docker run hello-world
 ```
 
-## Installation
+## VSCode
+
+Download the package for your distribution (it is `.deb` for Ubuntu) from 
+https://code.visualstudio.com/
+```console
+sudo dpkg -i code_<VERSION>_amd64.deb
+```
+start it with `code` or with `code /rel/path/to/workspace` (often `code .`)
+
+### Plugins
+
+- Dev Containers
+
+
+# Installation
 
 clone this repo to a folder of your choice. this will become the ROS 2 workspace and also be mapped to the container.
 `git clone git@github.com:JKBehrens/ros_humble_dev_container.git`
