@@ -5,7 +5,8 @@
     "build": {
         "dockerfile": "Dockerfile",
         "args": {
-            "USERNAME": "behrejan"
+            "USERNAME": "behrejan",
+            "WORKSPACE": "/home/ws"
         }
     },
     "workspaceFolder": "/home/ws",
@@ -36,7 +37,7 @@
     "mounts": [
        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
         "source=/dev/dri,target=/dev/dri,type=bind,consistency=cached",
-        "source=/home/behrejan/.ssh/,target=/home/behrejan/.ssh/,type=bind,consistency=cached"
+        // "source=/home/behrejan/.ssh/,target=/home/behrejan/.ssh/,type=bind,consistency=cached"
     ],
-    "postCreateCommand": "rosdep update && rosdep install --from-paths src --ignore-src -y && sudo chown -R $(whoami) /home/ws/"
+    "postCreateCommand": "rosdep update && sudo chown -R $(whoami) /home/ws/"
 }

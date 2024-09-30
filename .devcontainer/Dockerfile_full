@@ -107,19 +107,29 @@ RUN apt-get update && apt-get install -y git-core bash-completion \
 ENV DEBIAN_FRONTEND=
 ENV AMENT_CPPCHECK_ALLOW_SLOW_VERSIONS=1
 
+###########################################
+#  Full image
+###########################################
+FROM dev AS full
 
-# ** [Optional] Uncomment this section to install additional packages. **
-#
-# ENV DEBIAN_FRONTEND=noninteractive
-# RUN apt-get update \
-#    && apt-get -y install --no-install-recommends <your-package-list-here> \
-#    #
-#    # Clean up
-#    && apt-get autoremove -y \
-#    && apt-get clean -y \
-#    && rm -rf /var/lib/apt/lists/*
-# ENV DEBIAN_FRONTEND=dialog
+ENV DEBIAN_FRONTEND=noninteractive
+# Install the full release
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  ros-humble-desktop \
+  && rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND=
+ENV LD_LIBRARY_PATH=/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib
 
-# Set up auto-source of workspace for ros user
-# ARG WORKSPACE
-# RUN echo "if [ -f ${WORKSPACE}/install/setup.bash ]; then source ${WORKSPACE}/install/setup.bash; fi" >> /home/ws/.bashrc
+###########################################
+#  Full+Gazebo image
+###########################################
+FROM full AS gazebo
+
+ENV DEBIAN_FRONTEND=noninteractive
+# Install gazebo
+RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
+  && apt-get update && apt-get install -q -y --no-install-recommends \
+    ros-humble-ros-gz \
+  && rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND=
